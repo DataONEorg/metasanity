@@ -19,3 +19,8 @@ java -jar target/metasanity-1.0-SNAPSHOT.jar samples/iso_01.xml
 The metasanity expects an xml catalog file "schemas.xml" to be in the
 working directory. Use `-c` to specify a different catalog.
 
+Build using:
+
+```
+mvn package
+```
