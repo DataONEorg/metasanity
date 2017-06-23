@@ -24,3 +24,13 @@ Build using:
 ```
 mvn package
 ```
+
+
+## Reference
+
+* [XMLCatalog Spec](https://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html)
+* [XMLCatalog Examples](http://www.sagehill.net/docbookxsl/WriteCatalog.html)
+* Xerces [XMLCatalog Resolver](https://xerces.apache.org/xerces2-j/javadocs/xerces2/org/apache/xerces/util/XMLCatalogResolver.html)
+* Xerces [XMLCatalog notes](http://xerces.apache.org/xerces2-j/faq-xcatalogs.html
+* Metacat [DocumentImpl.java](https://code.ecoinformatics.org/code/metacat/trunk/src/edu/ucsb/nceas/metacat/DocumentImpl.java)
+
