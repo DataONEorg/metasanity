@@ -2,14 +2,20 @@
 
 No-frills schema aware metadata validator.
 
-Populate the schema repository with:
+First, populate the schema repository with a copy of the schemas from a 
+Coordinating Node:
 
 ```
-rsync -avz -e "ssh" cn.dataone.org:/var/lib/tomcat7/webapps/metacat/schema schema
+rsync -avz -e "ssh" cn.dataone.org:/var/lib/tomcat7/webapps/metacat/schema .
 ```
 
-Generate the schemsa.json file with:
+Example use:
 
 ```
-select array_to_json(array_agg(t)) from (SELECT public_id, system_id, format_id FROM xml_catalog where entry_type='Schema') t;
+java -jar target/metasanity-1.0-SNAPSHOT.jar samples/iso_01.xml
+
 ```
+
+The metasanity expects an xml catalog file "schemas.xml" to be in the
+working directory. Use `-c` to specify a different catalog.
+
