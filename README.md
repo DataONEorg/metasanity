@@ -1,4 +1,4 @@
-# README for Metasanity
+# Metasanity
 
 No-frills schema aware metadata validator.
 
@@ -19,12 +19,13 @@ java -jar target/metasanity-1.0-SNAPSHOT.jar samples/iso_01.xml
 The metasanity expects an xml catalog file "schemas.xml" to be in the
 working directory. Use `-c` to specify a different catalog.
 
-Build using:
+To build:
 
-```
-mvn package
-```
+1. Clone, fork, or download a copy of this repo
+2. `cd` to the metasanity folder
+3. Run `mvn package`
 
+Result if all goes as expected should be `target/metasanity-X.Y-SNAPSHOT.jar`
 
 ## Reference
 
