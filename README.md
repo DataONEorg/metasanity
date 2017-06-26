@@ -6,7 +6,7 @@ Attempts to validate content based on the local copies of metadata schemas
 used by Coordinating Nodes to emulate the validation process used during
 the internal `create` operation.
 
-To build:
+## Build
 
 1. Clone, fork, or download a copy of this repo
 2. `cd` to the metasanity folder
@@ -14,7 +14,7 @@ To build:
 
 Result if all goes as expected should be `target/metasanity-X.Y-SNAPSHOT.jar`
 
-To use:
+## Use
 
 First, populate the local `schema` folder with a copy of the schemas from a 
 Coordinating Node (requires shell access to a CN):
