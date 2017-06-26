@@ -54,6 +54,10 @@ Error:
 Document is not valid. Please review issues noted above.
 ```
 
+## XML Catalog
+
+Note that `metasanity` uses an XMLCatalog and so differs from the implementation on the DataONE CNs. 
+
 ## Reference
 
 * [XMLCatalog Spec](https://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html)
