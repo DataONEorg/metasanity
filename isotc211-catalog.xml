@@ -27,4 +27,6 @@
     -->
   <rewriteSystem systemIdStartString="http://wwww.isotc211.org/2005/"
                 rewritePrefix="schema/isotc211/" />
+  <system systemId="http://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd"
+                        uri="schema/isotc211/gmi/gmi.xsd" />   
 </catalog>
