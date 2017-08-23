@@ -35,4 +35,6 @@
          uri="schema/dc/dcterms.xsd" />
  <system systemId="http://www.w3.org/2001/03/xml.xsd" 
          uri="schema/xml/xml.xsd" />
+ <rewriteSystem systemIdStartString="http://www.isotc211.org/2005/"
+                rewritePrefix="schema/isotc211/" />
 </catalog>

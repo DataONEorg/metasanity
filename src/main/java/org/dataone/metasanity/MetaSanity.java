@@ -3,17 +3,22 @@
  */
 package org.dataone.metasanity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import org.apache.xerces.util.XMLCatalogResolver;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
+import org.apache.xerces.util.XMLCatalogResolver;
+
+import org.dataone.metasanity.AltXMLCatalogResolver;
 
 /**
  *
@@ -42,19 +47,29 @@ public class MetaSanity {
      */
     public static void main(String[] args) {
 
+        Logger logger = LoggerFactory.getLogger(MetaSanity.class);
         ArgumentParser argparser = ArgumentParsers.newArgumentParser("MetaSanity")
                 .defaultHelp(true)
                 .description("Validate some metadata");
         argparser.addArgument("input")
                 .help("input metadata file")
                 .required(true);
-        argparser.addArgument("-c", "--catalog").required(false)
+        argparser.addArgument("-c", "--catalog")
+                .required(false)
+                .setDefault("schemas.xml")
                 .help("XMLCatalog document to use.");
+        argparser.addArgument("-a", "--altresolver")
+                .required(false)
+                .type(Boolean.class)
+                .action(Arguments.storeTrue())
+                .setDefault(false)
+                .help("Use verbose alternate catalog resolver.");
         Namespace ns = null;
         try {
             ns = argparser.parseArgs(args);
         } catch (ArgumentParserException e) {
             argparser.handleError(e);
+            logger.error(e.toString());
             System.exit(1);
         }
 
@@ -63,9 +78,16 @@ public class MetaSanity {
         if (catalog == null) {
             catalog = "schemas.xml";
         }
+        logger.info("Using catalog: " + catalog);
 
         String[] catalogs = {catalog};
-        XMLCatalogResolver resolver = new XMLCatalogResolver();
+        XMLCatalogResolver resolver = null;
+        if (ns.getBoolean("altresolver")) {
+            logger.warn("Using verbose alternative Catalog Resolver");
+            resolver = new AltXMLCatalogResolver();
+        } else {
+            resolver = new XMLCatalogResolver();
+        }
         resolver.setPreferPublic(true);
         resolver.setCatalogList(catalogs);
 
@@ -78,49 +100,52 @@ public class MetaSanity {
             r.setProperty(SCHEMALANG, SCHEMATYPE);
             r.setFeature(SCHEMAVALIDATIONFEATURE, true);
             r.setFeature(FULLSCHEMAVALIDATIONFEATURE, true);
-            MyErrorHandler error_handler = new MyErrorHandler();
+            ValidationErrorHandler error_handler = new ValidationErrorHandler();
             r.setErrorHandler(error_handler);
-            System.out.println("Parsing: " + xml_document);
+            logger.info("Parsing: " + xml_document);
             r.parse(xml_document);
             if (error_handler.issue_count == 0) {
-                System.out.println("Document is valid.");
+                logger.info("Document is valid.");
             } else {
-                System.out.println("\nDocument is not valid. Please review issues noted above.");
+                logger.warn("\nDocument is not valid with " 
+                        + error_handler.issue_count 
+                        + " issues. Please review issues noted above.");
             }
 
         } catch (SAXException e) {
-            System.out.println(e.toString());
+            logger.error(e.toString());
         } catch (IOException e) {
-            System.out.println(e.toString());
+            logger.error(e.toString());
         }
     }
 
-    private static class MyErrorHandler extends DefaultHandler {
+    private static class ValidationErrorHandler extends DefaultHandler {
 
         public Integer issue_count = 0;
-
+        private Logger logger = LoggerFactory.getLogger(XMLReader.class);
+               
         public void warning(SAXParseException e) throws SAXException {
-            System.out.println("Warning: ");
-            printInfo(e);
+            logger.warn(eToString(e));
         }
 
         public void error(SAXParseException e) throws SAXException {
-            System.out.println("Error: ");
-            printInfo(e);
+            logger.error(eToString(e));
         }
 
         public void fatalError(SAXParseException e) throws SAXException {
-            System.out.println("Fatal error: ");
-            printInfo(e);
+            logger.error("FATAL exception raised by parser");
+            logger.error(eToString(e));
         }
 
-        private void printInfo(SAXParseException e) {
+        private String eToString(SAXParseException e) {
+            String result = new String();
             issue_count++;
-            System.out.println("   Public ID: " + e.getPublicId());
-            System.out.println("   System ID: " + e.getSystemId());
-            System.out.println("   Line number: " + e.getLineNumber());
-            System.out.println("   Column number: " + e.getColumnNumber());
-            System.out.println("   Message: " + e.getMessage());
+            result = e.getMessage();
+            result += "\n  Public ID: " + e.getPublicId();
+            result += "\n  System ID: " + e.getSystemId();
+            result += "\n  Line number: " + e.getLineNumber();
+            result += "\n  Column number: " + e.getColumnNumber();
+            return result;
         }
     }
 }
