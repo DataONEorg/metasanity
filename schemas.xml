@@ -27,6 +27,9 @@
     -->
  <rewriteSystem systemIdStartString="http://files.axds.co/isobio/" 
                 rewritePrefix="schema/isotc211/" />
+<!-- -->                
+<rewriteSystem systemIdStartString="http://www.ngdc.noaa.gov/metadata/published/xsd/" 
+                               rewritePrefix="schema/isotc211-noaa/" />
  <system systemId="http://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd"
          uri="schema/isotc211-noaa/gmi/gmi.xsd" />   
  <system systemId="http://ns.dataone.org/metadata/schema/onedcx/v1.0/onedcx_v1.0.xsd"
@@ -35,6 +38,8 @@
          uri="schema/dc/dcterms.xsd" />
  <system systemId="http://www.w3.org/2001/03/xml.xsd" 
          uri="schema/xml/xml.xsd" />
- <rewriteSystem systemIdStartString="http://www.isotc211.org/2005/"
+ <rewriteSystem systemIdStartString="http://wwww.isotc211.org/2005/"
                 rewritePrefix="schema/isotc211/" />
+  <system systemId="http://www.ngdc.noaa.gov/metadata/published/xsd/schema.xsd"
+                        uri="schema/isotc211/gmi/gmi.xsd" />   
 </catalog>
