@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : schemas.xml
+    Created on : June 22, 2017, 6:07 PM
+    Author     : vieglais
+    Description:
+        Purpose of the OASIS XML Catalog document follows.
+-->
+
+<!-- see http://www.oasis-open.org/committees/entity/spec.html -->
+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
+         "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">                
+
+    <!-- For XML schemas the <uri> element is recommended 
+    to specify the resource, e.g: -->
+    <!--
+    <uri name="http://org.company/xml/schemas" uri="file:/path/schema.xsd"/>
+    -->
+        
+    <!-- If xsi:schemaLocation is specified in XML document e.g.
+    xsi:schemaLocation="http://org.company/xml/schemas http://org.company/xml/schemas/schema.xsd"
+    the <system> element can be used to specify the local resource, e.g: -->
+    <!--
+    <system systemId="http://org.company/xml/schemas/schema.xsd" uri="file:/path/schema.xsd"/>
+    -->
+  <rewriteSystem systemIdStartString="http://wwww.isotc211.org/2005/"
+                rewritePrefix="schema/isotc211/" />
+</catalog>
