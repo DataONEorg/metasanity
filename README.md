@@ -58,6 +58,53 @@ Document is not valid. Please review issues noted above.
 
 Note that `metasanity` uses an XMLCatalog and so differs from the implementation on the DataONE CNs. 
 
+Three examples of XML Catalog files are provided:
+
+* `schemas.xml` Generic catalog for Dublin Core and ISOTC211
+* `isotc211-catalog.xml` Catalog specifically for the formatID `http://www.isotc211.org/2005/gmd`
+* `isotc211-noaa-catalog.xml` Catalog specifically for the formatID `http://www.isotc211.org/2005/gmd-noaa`
+
+Example of ISOTC211 from NOAA valid for the gmd-noaa schema variant:
+
+```
+java -jar target/metasanity-1.0-SNAPSHOT.jar -c isotc211-noaa-catalog.xml samples/iso_01.xml
+Aug 23, 2017 3:03:54 PM org.dataone.metasanity.MetaSanity main
+INFO: Using catalog: isotc211-noaa-catalog.xml
+Aug 23, 2017 3:03:54 PM org.dataone.metasanity.MetaSanity main
+INFO: Parsing: samples/iso_01.xml
+Aug 23, 2017 3:03:55 PM org.dataone.metasanity.MetaSanity main
+INFO: Document is valid.
+```
+
+And invalid for the plain ISOTC211 variant:
+
+```
+java -jar target/metasanity-1.0-SNAPSHOT.jar -c isotc211-catalog.xml samples/iso_01.xml
+Aug 23, 2017 3:10:15 PM org.dataone.metasanity.MetaSanity main
+INFO: Using catalog: isotc211-catalog.xml
+Aug 23, 2017 3:10:15 PM org.dataone.metasanity.MetaSanity main
+INFO: Parsing: samples/iso_01.xml
+Aug 23, 2017 3:10:22 PM org.dataone.metasanity.MetaSanity$ValidationErrorHandler error
+SEVERE: cvc-complex-type.2.4.a: Invalid content was found starting with element 'gmx:Anchor'. One of '{"http://www.isotc211.org/2005/gco":CharacterString}' is expected.
+  Public ID: null
+  System ID: file:///Users/vieglais/Documents/Projects/DataONE_PhaseII/Projects/NetBeans/metasanity/samples/iso_01.xml
+  Line number: 136
+  Column number: 167
+
+...
+
+Aug 23, 2017 3:10:22 PM org.dataone.metasanity.MetaSanity$ValidationErrorHandler error
+SEVERE: cvc-complex-type.2.4.a: Invalid content was found starting with element 'gmx:Anchor'. One of '{"http://www.isotc211.org/2005/gco":CharacterString}' is expected.
+  Public ID: null
+  System ID: file:///Users/vieglais/Documents/Projects/DataONE_PhaseII/Projects/NetBeans/metasanity/samples/iso_01.xml
+  Line number: 884
+  Column number: 125
+Aug 23, 2017 3:10:22 PM org.dataone.metasanity.MetaSanity main
+WARNING:
+Document is not valid with 70 issues. Please review issues noted above.
+```
+
+
 ## Reference
 
 * [XMLCatalog Spec](https://www.oasis-open.org/committees/download.php/14809/xml-catalogs.html)
